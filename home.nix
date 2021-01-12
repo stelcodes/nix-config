@@ -107,6 +107,7 @@ in
       enable = true;
       userName = "Stel Abrego";
       userEmail = "stel@stel.codes";
+      ignores = ["*Session.vim" "*.DS_Store" "*.swp"];
       extraConfig = {
         init = {
           defaultBranch = "main";
