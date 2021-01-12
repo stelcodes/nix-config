@@ -107,6 +107,11 @@ in
       enable = true;
       userName = "Stel Abrego";
       userEmail = "stel@stel.codes";
+      extraConfig = {
+        init = {
+          defaultBranch = "main";
+        };
+      };
     };
 
   };
