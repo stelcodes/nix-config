@@ -119,14 +119,15 @@ tnoremap <C-l> <C-\><C-n>:call MoveRight()<CR>
 nnoremap <silent> <TAB> 10j
 nnoremap <silent> <S-TAB> 10k
 
+" move through wrapped lines visually
+nnoremap j gj
+nnoremap k gk
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Auto complete
 
 " <TAB>: completion.
 inoremap <silent> <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-" move through wrapped lines visually
-nnoremap j gj
-nnoremap k gk
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text manipulation
