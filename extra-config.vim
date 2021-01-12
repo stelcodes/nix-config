@@ -78,8 +78,6 @@ set splitbelow
 set splitright
 " Break lines at word boundaries for readability
 set linebreak
-" colorscheme
-colorscheme hydrangea
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Navigating
 

@@ -2,6 +2,7 @@
 let
   #inherit (pkgs) stdenv;
   my-colorscheme = pkgs.vimUtils.buildVimPlugin {
+    pname = "my-vim-colorscheme";
     name = "my-vim-colorscheme";
     src = builtins.fetchGit https://github.com/stelcodes/neovim-colorscheme-generator;
   };
@@ -75,7 +76,7 @@ in
         vim-gitgutter
         { plugin = vim-auto-save; config = "let g:auto_save = 1"; }
         { plugin = ale; config = "let g:ale_linters = {'clojure': ['clj-kondo']}"; }
-        my-colorscheme
+        { plugin = my-colorscheme; config = "colorscheme hydrangea";}
       ];
       extraConfig = (builtins.readFile ./extra-config.vim) + "\nset shell=${pkgs.zsh}/bin/zsh";
     };
