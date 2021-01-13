@@ -71,7 +71,7 @@ set termguicolors
 " Always show the signcolumn, otherwise it would shift the text each time
 set signcolumn=yes
 "supposedly fixed UI redraw bug when switching focus back to fullscreen nvim
-set nolazyredraw
+set lazyredraw
 " Horizontal splits will automatically be below
 set splitbelow
 " Vertical splits will automatically be to the right

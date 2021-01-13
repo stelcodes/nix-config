@@ -4,11 +4,11 @@ let
   my-colorscheme = pkgs.vimUtils.buildVimPlugin {
     pname = "my-vim-colorscheme";
     name = "my-vim-colorscheme";
-    src = builtins.fetchGit https://github.com/stelcodes/neovim-colorscheme-generator;
+    src = builtins.fetchGit
+      "https://github.com/stelcodes/neovim-colorscheme-generator";
   };
 
-in 
-{
+in {
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
@@ -30,25 +30,23 @@ in
   home.packages = [
     pkgs.htop
     pkgs.tree
-    (pkgs.nerdfonts.override { fonts = ["Noto"]; })
+    (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
+    pkgs.nixfmt
+    pkgs.trash-cli
   ];
 
-  fonts.fontconfig = {
-    enable = true;
-  };
+  fonts.fontconfig = { enable = true; };
 
   programs = {
-    # Firefox not supported for x86 Darwin ;-;
+    # Firefox, tor-broswer-bundle-bin not supported for x86 Darwin ;-;
 
     zsh = {
       enable = true;
       autocd = true;
       dotDir = ".config/zsh";
       enableAutosuggestions = true;
-      dirHashes = {
-        desktop = "$HOME/Desktop";
-      };
-      initExtraBeforeCompInit = ''. $HOME/.nix-profile/etc/profile.d/nix.sh'';
+      dirHashes = { desktop = "$HOME/Desktop"; };
+      initExtraBeforeCompInit = ". $HOME/.nix-profile/etc/profile.d/nix.sh";
       oh-my-zsh = {
         enable = true;
         theme = "muse";
@@ -60,7 +58,7 @@ in
       vimAlias = true;
       plugins = with pkgs.vimPlugins; [
         nerdtree
-        vim-obsession 
+        vim-obsession
         vim-commentary
         vim-dispatch
         vim-projectionist
@@ -74,16 +72,25 @@ in
         vim-css-color
         tabular
         vim-gitgutter
-        { plugin = vim-auto-save; config = "let g:auto_save = 1"; }
-        { plugin = ale; config = "let g:ale_linters = {'clojure': ['clj-kondo']}"; }
-        { plugin = my-colorscheme; config = "colorscheme hydrangea";}
+        {
+          plugin = vim-auto-save;
+          config = "let g:auto_save = 1";
+        }
+        {
+          plugin = ale;
+          config = "let g:ale_linters = {'clojure': ['clj-kondo']}";
+        }
+        {
+          plugin = my-colorscheme;
+          config = "colorscheme hydrangea";
+        }
       ];
-      extraConfig = (builtins.readFile ./extra-config.vim) + "\nset shell=${pkgs.zsh}/bin/zsh";
+      extraConfig = (builtins.readFile ./extra-config.vim) + ''
+
+        set shell=${pkgs.zsh}/bin/zsh'';
     };
 
-    bat = {
-      enable=true;
-    };
+    bat = { enable = true; };
 
     alacritty = {
       enable = true;
@@ -95,7 +102,7 @@ in
             style = "Regular";
           };
         };
-        shell.program = "${pkgs.zsh}/bin/zsh";     
+        shell.program = "${pkgs.zsh}/bin/zsh";
         window.padding = {
           x = 2;
           y = 2;
@@ -107,12 +114,35 @@ in
       enable = true;
       userName = "Stel Abrego";
       userEmail = "stel@stel.codes";
-      ignores = ["*Session.vim" "*.DS_Store" "*.swp"];
-      extraConfig = {
-        init = {
-          defaultBranch = "main";
-        };
-      };
+      ignores = [ "*Session.vim" "*.DS_Store" "*.swp" ];
+      extraConfig = { init = { defaultBranch = "main"; }; };
+    };
+
+    rtorrent = { enable = true; };
+
+    tmux = {
+      enable = true;
+      baseIndex = 1;
+      clock24 = true;
+      keyMode = "vi";
+      newSession = true;
+      shell = "${pkgs.zsh}/bin/zsh";
+      shortcut = "a";
+      terminal = "xterm-256color";
+      plugins = with pkgs; [
+        tmuxPlugins.cpu
+        {
+          plugin = tmuxPlugins.resurrect;
+          extraConfig = "set -g @resurrect-strategy-nvim 'session'";
+        }
+        {
+          plugin = tmuxPlugins.continuum;
+          extraConfig = ''
+            set -g @continuum-restore 'on'
+            set -g @continuum-save-interval '5' # minutes
+          '';
+        }
+      ];
     };
 
   };
