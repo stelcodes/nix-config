@@ -70,7 +70,7 @@ set noshowmode
 set termguicolors 
 " Always show the signcolumn, otherwise it would shift the text each time
 set signcolumn=yes
-"supposedly fixed UI redraw bug when switching focus back to fullscreen nvim
+" Setting this fixed my tmux rendering issues :)
 set lazyredraw
 " Horizontal splits will automatically be below
 set splitbelow

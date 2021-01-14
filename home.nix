@@ -9,36 +9,59 @@ let
   };
 
 in {
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = "stel";
-  home.homeDirectory = "/Users/stel";
+  home = {
+    username = "stel";
+    homeDirectory = "/Users/stel";
 
-  # This value determines the Home Manager release that your
-  # configuration is compatible with. This helps avoid breakage
-  # when a new Home Manager release introduces backwards
-  # incompatible changes.
-  #
-  # You can update Home Manager without changing this value. See
-  # the Home Manager release notes for a list of state version
-  # changes in each release.
-  home.stateVersion = "21.03";
+    # This value determines the Home Manager release that your
+    # configuration is compatible with. This helps avoid breakage
+    # when a new Home Manager release introduces backwards
+    # incompatible changes.
+    #
+    # You can update Home Manager without changing this value. See
+    # the Home Manager release notes for a list of state version
+    # changes in each release.
+    stateVersion = "21.03";
 
-  home.packages = [
-    pkgs.htop
-    pkgs.tree
-    (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
-    pkgs.nixfmt
-    pkgs.trash-cli
-  ];
+    packages = [
+      pkgs.htop
+      pkgs.tree
+      (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
+      pkgs.trash-cli
+      pkgs.fd
+      pkgs.neofetch
+
+      # Other package managers
+      pkgs.rustup
+      # Run this:
+      # rustup toolchain install stable
+      # cargo install <package>
+
+      # Dev tools
+      pkgs.clojure
+      pkgs.nixfmt
+      # Not supported for mac:
+      # babashka
+      # tor-broswer-bundle-bin
+    ];
+
+    sessionPath = [ "$HOME/.cargo/bin" ];
+  };
 
   fonts.fontconfig = { enable = true; };
 
   programs = {
-    # Firefox, tor-broswer-bundle-bin not supported for x86 Darwin ;-;
+
+    # Let Home Manager install and manage itself.
+    home-manager.enable = true;
+
+    direnv = {
+      enable = true;
+      enableNixDirenvIntegration = true;
+    };
 
     zsh = {
       enable = true;
@@ -47,6 +70,11 @@ in {
       enableAutosuggestions = true;
       dirHashes = { desktop = "$HOME/Desktop"; };
       initExtraBeforeCompInit = ". $HOME/.nix-profile/etc/profile.d/nix.sh";
+      shellAliases = {
+        "nix-search" = "nix repl '<nixpkgs>'";
+        "source!" = "source $HOME/.config/zsh/.zshrc";
+        "switch!" = "home-manager switch && source $HOME/.config/zsh/.zshrc";
+      };
       oh-my-zsh = {
         enable = true;
         theme = "muse";
@@ -142,8 +170,28 @@ in {
             set -g @continuum-save-interval '5' # minutes
           '';
         }
+        {
+          plugin = tmuxPlugins.nord;
+        }
+		# {
+		# 	plugin = tmuxPlugins.dracula;
+		# 	extraConfig = ''
+		# 		set -g @dracula-show-battery false
+		# 		set -g @dracula-show-powerline true
+		# 		set -g @dracula-refresh-rate 10 '';
+		# }
       ];
     };
+
+    fzf = {
+      enable = true;
+      defaultOptions = [ "--height 40%" "--border" ];
+      defaultCommand =
+        "fd --type f --hidden --exclude Photos\\ Library.photoslibrary --exclude .cache --exclude Library --exclude .git --exclude .local";
+    };
+
+    # Not supported for Mac:
+    # firefox
 
   };
 }
