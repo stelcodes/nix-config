@@ -41,7 +41,7 @@ in {
       # cargo install <package>
 
       # Dev tools
-      pkgs.clojure
+      #pkgs.clojure
       pkgs.nixfmt
       # Not supported for mac:
       # babashka
@@ -52,6 +52,7 @@ in {
   };
 
   fonts.fontconfig = { enable = true; };
+
 
   programs = {
 
@@ -74,10 +75,11 @@ in {
         "nix-search" = "nix repl '<nixpkgs>'";
         "source!" = "source $HOME/.config/zsh/.zshrc";
         "switch!" = "home-manager switch && source $HOME/.config/zsh/.zshrc";
+        "direnv-init" = "echo \"use nix\" > .envrc && direnv allow";
       };
       oh-my-zsh = {
         enable = true;
-        theme = "muse";
+        theme = "minimal";
       };
     };
 
@@ -109,8 +111,8 @@ in {
           config = "let g:ale_linters = {'clojure': ['clj-kondo']}";
         }
         {
-          plugin = my-colorscheme;
-          config = "colorscheme hydrangea";
+          plugin = nord-vim;
+          config = "colorscheme nord";
         }
       ];
       extraConfig = (builtins.readFile ./extra-config.vim) + ''
@@ -122,21 +124,8 @@ in {
 
     alacritty = {
       enable = true;
-      settings = {
-        font = {
-          size = 22;
-          normal = {
-            family = "FiraCode Nerd Font Mono";
-            style = "Regular";
-          };
-        };
-        shell.program = "${pkgs.zsh}/bin/zsh";
-        window.padding = {
-          x = 2;
-          y = 2;
-        };
-      };
     };
+
 
     git = {
       enable = true;
@@ -157,6 +146,11 @@ in {
       shell = "${pkgs.zsh}/bin/zsh";
       shortcut = "a";
       terminal = "xterm-256color";
+      extraConfig = ''
+        set -ga terminal-overrides ',xterm-256color:Tc'
+        set -g default-terminal "tmux-256color"
+        set -as terminal-overrides ',xterm*:sitm=\E[3m'
+        '';
       plugins = with pkgs; [
         tmuxPlugins.cpu
         {
@@ -194,4 +188,6 @@ in {
     # firefox
 
   };
+
+  xdg.configFile."alacritty/alacritty.yml".text = pkgs.lib.mkMerge [(builtins.readFile ./alacritty-base.yml) (builtins.readFile ./alacritty-nord.yml)];
 }

@@ -60,8 +60,6 @@ set cmdheight=2
 set number        
 " Enable highlighting of the current line
 set cursorline    
-" tell vim what the background color looks like
-set background=dark
 " Always show tabs
 set showtabline=2 
 " We don't need to see things like -- INSERT -- anymore
@@ -155,14 +153,14 @@ nnoremap <C-b> :resize +3<CR>
 " lightline config
 set noshowmode
 let g:lightline = {
-      \ 'colorscheme': 'hydrangea',
+      \ 'colorscheme': 'nord',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
       \ },
       \ 'component': {
       \   'readonly': '%{&readonly?"":""}',
-      \   'obsession': '%{ObsessionStatus("☠️ ")}'
+      \   'obsession': '%{ObsessionStatus(" ")}'
       \ },
       \ 'component_function': {
       \   'gitbranch': 'LightlineFugitive',

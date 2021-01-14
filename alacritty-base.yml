@@ -1,0 +1,11 @@
+font:
+  size: 22
+  normal:
+    family: "FiraCode Nerd Font Mono"
+    style: "Regular"
+shell:
+  program: "/bin/zsh"
+window:
+  padding:
+    x: 2
+    y: 2
