@@ -79,7 +79,8 @@ in {
       };
       oh-my-zsh = {
         enable = true;
-        theme = "minimal";
+        # I like minimal, 
+        theme = "mortalscumbag";
       };
     };
 
