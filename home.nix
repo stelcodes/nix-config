@@ -53,7 +53,6 @@ in {
 
   fonts.fontconfig = { enable = true; };
 
-
   programs = {
 
     # Let Home Manager install and manage itself.
@@ -75,11 +74,11 @@ in {
         "nix-search" = "nix repl '<nixpkgs>'";
         "source!" = "source $HOME/.config/zsh/.zshrc";
         "switch!" = "home-manager switch && source $HOME/.config/zsh/.zshrc";
-        "direnv-init" = "echo \"use nix\" > .envrc && direnv allow";
+        "direnv-init" = ''echo "use nix" > .envrc && direnv allow'';
       };
       oh-my-zsh = {
         enable = true;
-        # I like minimal, 
+        # I like minimal, mortalscumbag, refined, steeef
         theme = "mortalscumbag";
       };
     };
@@ -121,12 +120,12 @@ in {
         set shell=${pkgs.zsh}/bin/zsh'';
     };
 
-    bat = { enable = true; };
-
-    alacritty = {
+    bat = {
       enable = true;
+      config = { theme = "base16"; };
     };
 
+    alacritty = { enable = true; };
 
     git = {
       enable = true;
@@ -151,7 +150,7 @@ in {
         set -ga terminal-overrides ',xterm-256color:Tc'
         set -g default-terminal "tmux-256color"
         set -as terminal-overrides ',xterm*:sitm=\E[3m'
-        '';
+      '';
       plugins = with pkgs; [
         tmuxPlugins.cpu
         {
@@ -168,13 +167,13 @@ in {
         {
           plugin = tmuxPlugins.nord;
         }
-		# {
-		# 	plugin = tmuxPlugins.dracula;
-		# 	extraConfig = ''
-		# 		set -g @dracula-show-battery false
-		# 		set -g @dracula-show-powerline true
-		# 		set -g @dracula-refresh-rate 10 '';
-		# }
+        # {
+        # 	plugin = tmuxPlugins.dracula;
+        # 	extraConfig = ''
+        # 		set -g @dracula-show-battery false
+        # 		set -g @dracula-show-powerline true
+        # 		set -g @dracula-refresh-rate 10 '';
+        # }
       ];
     };
 
@@ -190,5 +189,8 @@ in {
 
   };
 
-  xdg.configFile."alacritty/alacritty.yml".text = pkgs.lib.mkMerge [(builtins.readFile ./alacritty-base.yml) (builtins.readFile ./alacritty-nord.yml)];
+  xdg.configFile."alacritty/alacritty.yml".text = pkgs.lib.mkMerge [
+    (builtins.readFile ./alacritty-base.yml)
+    (builtins.readFile ./alacritty-nord.yml)
+  ];
 }
