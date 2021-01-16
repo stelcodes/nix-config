@@ -3,9 +3,6 @@ font:
   normal:
     family: "FiraCode Nerd Font Mono"
     style: "Regular"
-shell:
-  # TODO: set this inside home.nix to use the actual zsh path from nix
-  program: /bin/zsh
 window:
   padding:
     x: 2

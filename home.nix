@@ -27,13 +27,22 @@ in {
     stateVersion = "21.03";
 
     packages = [
+      # process monitor
       pkgs.htop
+      # filesystem visualizer
       pkgs.tree
+      # nerd font (doesn't work on mac?)
       (pkgs.nerdfonts.override { fonts = [ "Noto" ]; })
+      # cross platform trash bin
       pkgs.trash-cli
+      # alternative find, also used for fzf
       pkgs.fd
+      # system info
       pkgs.neofetch
+      # zsh prompt
       pkgs.starship
+      # http client
+      pkgs.httpie
 
       # Other package managers
       pkgs.rustup
@@ -42,7 +51,7 @@ in {
       # cargo install <package>
 
       # Dev tools
-      #pkgs.clojure
+      # pkgs.clojure
       pkgs.nixfmt
       # Not supported for mac:
       # babashka
@@ -71,15 +80,17 @@ in {
       enableAutosuggestions = true;
       dirHashes = { desktop = "$HOME/Desktop"; };
       initExtraFirst = ". $HOME/.nix-profile/etc/profile.d/nix.sh";
-      initExtra = "eval \"$(starship init zsh)\"";
+      initExtra = ''eval "$(starship init zsh)"'';
       shellAliases = {
         "nix-search" = "nix repl '<nixpkgs>'";
         "source!" = "source $HOME/.config/zsh/.zshrc";
         "switch!" = "home-manager switch && source $HOME/.config/zsh/.zshrc";
-        "direnv-init" = ''echo "use nix" > .envrc && direnv allow && echo "\n.direnv" >> .gitignore'';
+        "direnv-init" = ''
+          echo "use nix" > .envrc && direnv allow && echo "\n.direnv" >> .gitignore'';
       };
       oh-my-zsh = {
         enable = true;
+        plugins = [ "docker" "colored-man-pages" "httpie" ];
         # I like minimal, mortalscumbag, refined, steeef
         #theme = "mortalscumbag";
       };
@@ -192,6 +203,9 @@ in {
   };
 
   xdg.configFile."alacritty/alacritty.yml".text = pkgs.lib.mkMerge [
+    ''
+      shell:
+        program: ${pkgs.zsh}/bin/zsh''
     (builtins.readFile ./alacritty-base.yml)
     (builtins.readFile ./alacritty-nord.yml)
   ];
