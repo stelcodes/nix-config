@@ -33,6 +33,7 @@ in {
       pkgs.trash-cli
       pkgs.fd
       pkgs.neofetch
+      pkgs.starship
 
       # Other package managers
       pkgs.rustup
@@ -69,17 +70,18 @@ in {
       dotDir = ".config/zsh";
       enableAutosuggestions = true;
       dirHashes = { desktop = "$HOME/Desktop"; };
-      initExtraBeforeCompInit = ". $HOME/.nix-profile/etc/profile.d/nix.sh";
+      initExtraFirst = ". $HOME/.nix-profile/etc/profile.d/nix.sh";
+      initExtra = "eval \"$(starship init zsh)\"";
       shellAliases = {
         "nix-search" = "nix repl '<nixpkgs>'";
         "source!" = "source $HOME/.config/zsh/.zshrc";
         "switch!" = "home-manager switch && source $HOME/.config/zsh/.zshrc";
-        "direnv-init" = ''echo "use nix" > .envrc && direnv allow'';
+        "direnv-init" = ''echo "use nix" > .envrc && direnv allow && echo "\n.direnv" >> .gitignore'';
       };
       oh-my-zsh = {
         enable = true;
         # I like minimal, mortalscumbag, refined, steeef
-        theme = "mortalscumbag";
+        #theme = "mortalscumbag";
       };
     };
 
@@ -131,7 +133,7 @@ in {
       enable = true;
       userName = "Stel Abrego";
       userEmail = "stel@stel.codes";
-      ignores = [ "*Session.vim" "*.DS_Store" "*.swp" ];
+      ignores = [ "*Session.vim" "*.DS_Store" "*.swp" "*.direnv" "/direnv" ];
       extraConfig = { init = { defaultBranch = "main"; }; };
     };
 

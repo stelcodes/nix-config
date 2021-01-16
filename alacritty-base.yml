@@ -4,8 +4,10 @@ font:
     family: "FiraCode Nerd Font Mono"
     style: "Regular"
 shell:
-  program: "/bin/zsh"
+  # TODO: set this inside home.nix to use the actual zsh path from nix
+  program: /bin/zsh
 window:
   padding:
     x: 2
     y: 2
+  startup_mode: Fullscreen
