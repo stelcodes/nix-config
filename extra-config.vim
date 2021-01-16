@@ -146,8 +146,6 @@ nnoremap <C-s> :source ~/.config/nvim/init.vim<CR>
 nnoremap <C-d> :cd %:h<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
 nnoremap <C-c> :let @/=""<CR>
-nnoremap <C-v> :resize -3<CR>
-nnoremap <C-b> :resize +3<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " lightline config

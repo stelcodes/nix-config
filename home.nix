@@ -90,7 +90,16 @@ in {
       };
       oh-my-zsh = {
         enable = true;
-        plugins = [ "docker" "colored-man-pages" "httpie" ];
+        plugins = [
+          # docker completion
+          "docker"
+          # self explanatory
+          "colored-man-pages"
+          # completion + https command
+          "httpie"
+          # pp_json command
+          "jsontools"
+        ];
         # I like minimal, mortalscumbag, refined, steeef
         #theme = "mortalscumbag";
       };
@@ -157,12 +166,23 @@ in {
       keyMode = "vi";
       newSession = true;
       shell = "${pkgs.zsh}/bin/zsh";
-      shortcut = "a";
+      prefix = "M-a";
       terminal = "xterm-256color";
       extraConfig = ''
         set -ga terminal-overrides ',xterm-256color:Tc'
         set -g default-terminal "tmux-256color"
         set -as terminal-overrides ',xterm*:sitm=\E[3m'
+
+        # Switch windows
+        bind -n M-h  previous-window
+        bind -n M-l next-window
+        bind M-a next-window
+
+        # Kill active pane
+        bind -n M-x kill-pane
+
+        # See all windows in all sessions
+        bind -n M-s choose-tree
       '';
       plugins = with pkgs; [
         tmuxPlugins.cpu
