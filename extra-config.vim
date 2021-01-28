@@ -1,4 +1,12 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""
+" Leader
+
+let mapleader=" "
+let maplocalleader=" "
+nnoremap <Space> <Nop>
+xnoremap <leader> <Nop>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Substitution
 
 " preview pane
@@ -141,7 +149,7 @@ vnoremap < <gv
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " my personal ctrl prefixed commmands
 nnoremap <C-q> :q<CR>
-nnoremap <C-t> :tabnew<CR>:terminal<CR>
+nnoremap <C-t> :tabnew<CR>
 nnoremap <C-s> :source ~/.config/nvim/init.vim<CR>
 nnoremap <C-d> :cd %:h<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
